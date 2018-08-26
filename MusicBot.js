@@ -38,7 +38,7 @@ client.on('message', async msg => { // eslint-disable-line
 	command = command.slice(prefix.length)
 	
 
-	if (command === 'play') {
+	if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
@@ -101,18 +101,18 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			}
 			return handleVideo(video, msg, voiceChannel);
 		}
-	} else if (command === 'skip') {
+	} else if (command === 'skip' || command === 's') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing that I could skip for you.'}});
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 		return undefined;
-	} else if (command === 'stop') {
+	} else if (command === 'stop' || command === 'st') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing that I could stop for you.'}});
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
 		return msg.channel.send({ embed: { color: 0xef090, description: 'The music has stopped and I has left the voice channel!'}});
-	} else if (command === 'volume') {
+	} else if (command === 'volume' || command === 'v') {
 
 			if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
@@ -127,7 +127,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
     if (args[1] < 101) return serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) + msg.channel.send({ embed: { description: `I set the volume to: __**${args[1]}**%__`}});
 
  
-	} else if (command === 'np') {
+	} else if (command === 'np' || command === 'nowplaying') {
     
     if(!serverQueue) return msg.channel.send({ embed: { color: 0x1D82B6, description:'There is nothing playing'}});
   const duration = (serverQueue.songs[0].duration.minutes*60000) + ((serverQueue.songs[0].duration.seconds%60000)*1000);
@@ -178,7 +178,7 @@ function progressBar(percent){
 		return '🔘▬▬▬▬▬▬▬▬▬▬▬';
   } 
   
-} if (command === 'queue') {
+} if (command === 'queue' || command === 'q') {
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
     let index = 0;
 var queueembed = new RichEmbed() 
