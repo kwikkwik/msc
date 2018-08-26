@@ -294,11 +294,10 @@ var pleyembed = new RichEmbed()
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
   .addField('Title', `__[${song.title}](${song.url})__`, false)
   .addField("Video Uploadader", `[${song.uploadedby}](${song.channelurl})`, true)
+  .addField('Requested by', `${song.meminta}`, true)
   .addField('Voice Channel', `**${song.mamang}**`, true)
   .addField("Volume", `${serverQueue.volume}%`, true)
-  .addField('Requested by', `${song.meminta}`, true)
   .addField("Duration", `${song.durationh} Hours, ${song.durationm} Minutes, ${song.durations} Seconds`, true)
-  .addField("Duration", `${song.duration}`, true)
   .setFooter("If you can't hear the music, please reconnect. If you still can't hear maybe the bot is restarting!")
   .setTimestamp();
 
