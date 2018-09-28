@@ -40,7 +40,8 @@ client.on('message', async msg => { // eslint-disable-line
 	
 	
         if(command === 'mstats'){
-const embed = new RichEmbed.RichEmbed()
+const Discord = require('discord.js')
+const embed = new Discord.RichEmbed()
 .setAuthor(client.user.username, client.user.avatarURL)
 .setDescription(`${queue.size} queue`)
 msg.channel.send(embed)
