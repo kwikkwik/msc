@@ -42,8 +42,12 @@ client.on('message', async msg => { // eslint-disable-line
         if(command === 'mstats'){
 const Discord = require('discord.js')
 const embed = new Discord.RichEmbed()
+.setColor('DARK_BLUE')
 .setAuthor(client.user.username, client.user.avatarURL)
-.setDescription(`${queue.size} queue`)
+.addField(`Server Count`, `${client.guilds.size}`)
+.addField(`Total Members`, `${bot.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
+.addField(`Total Channels`, `${bot.channels.size}`)
+.addField(`Playing Servers`, `${queue.size} queue`)
 msg.channel.send(embed)
 } else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
