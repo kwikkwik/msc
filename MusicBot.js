@@ -304,7 +304,7 @@ var pleyembed = new RichEmbed()
   .addField("Video Uploader", `[${song.uploadedby}](${song.channelurl})`, true)
   .addField('Requested by', `${song.meminta}`, true)
   .addField('Voice Channel', `**${song.mamang}**`, true)
-  .addField('Repeat', `${serverQueue.loop}`
+  .addField('Repeat', `${serverQueue.loop}`, true)
   .addField("Volume", `${serverQueue.volume}%`, true)
   .addField("Duration", `${song.durationh} Hours, ${song.durationm} Minutes, ${song.durations} Seconds`, true)
   .setFooter("If you can't hear the music, please reconnect. If you still can't hear maybe the bot is restarting!")
