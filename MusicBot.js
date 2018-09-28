@@ -37,8 +37,14 @@ client.on('message', async msg => { // eslint-disable-line
 	let command = msg.content.toLowerCase().split(' ')[0];
 	command = command.slice(prefix.length)
 	
-
-	if (command === 'play' || command === 'p') {
+	
+	
+        if(command === 'mstats'){
+const embed = new RichEmbed.RichEmbed()
+.setAuthor(client.user.username, client.user.avatarURL)
+.setDescription(`${queue.size} queue`)
+msg.channel.send(embed)
+} else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
