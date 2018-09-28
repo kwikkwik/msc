@@ -127,7 +127,13 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
     if (args[1] < 101) return serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) + msg.channel.send({ embed: { description: `I set the volume to: __**${args[1]}**%__`}});
 
  
-	} else if (command === 'np' || command === 'nowplaying') {
+    }else if (command === 'loop'){
+		const serverQueue = queue.get(msg.member.guild.id);
+		if(!serverQueue) return msg.channel.createMessage('❌ | Im not playing anything right now');
+		if(!msg.member.voiceState.channelID) return msg.channel.createMessage('❌ | You must join voice channel to loop/unloop queue');
+		serverQueue.loop = !serverQueue.loop;
+		return msg.channel.createMessage(`✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`);
+	}else if (command === 'np' || command === 'nowplaying') {
     
     if(!serverQueue) return msg.channel.send({ embed: { color: 0x1D82B6, description:'There is nothing playing'}});
   const duration = (serverQueue.songs[0].duration.minutes*60000) + ((serverQueue.songs[0].duration.seconds%60000)*1000);
@@ -231,6 +237,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
 			voiceChannel: voiceChannel,
 			connection: null,
 			songs: [],
+			loop: false,
 			volume: 100,
 			playing: true
 		};
@@ -282,8 +289,9 @@ function play(guild, song, msg) {
 		.on('end', reason => {
 			if (reason === 'Stream is not generating quickly enough.') console.log('Song ended.');
 			else console.log(reason);
-			serverQueue.songs.shift();
-			play(guild, serverQueue.songs[0]);
+		const shiffed = serverQueue.songs.shift();
+		if(serverQueue.loop) serverQueue.songs.push(shiffed);
+		return play(guild, serverQueue.songs[0]);
 		})
 		.on('error', error => console.error(error));
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
