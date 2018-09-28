@@ -129,10 +129,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
  
     }else if (command === 'loop' || command === 'repeat'){
 		const serverQueue = queue.get(msg.member.guild.id);
-		if(!serverQueue) return msg.channel.send({ embed: { color: 0x3553598, description: '❌ | Im not playing anything right now'}});
-		if(!msg.member.voiceChannel) return msg.channel.send({ embed: { color: 0x3553598, description: '❌ | You must join voice channel to loop/unloop queue'}});
+		if(!serverQueue) return msg.channel.send({ embed: { description: '❌ | Im not playing anything right now'}});
+		if(!msg.member.voiceChannel) return msg.channel.send({ embed: { description: '❌ | You must join voice channel to loop/unloop queue'}});
 		serverQueue.loop = !serverQueue.loop;
-		return msg.channel.send({ embed: { color: 0x3553598, description: `✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`}});
+		return msg.channel.send({ embed: { description: `✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`}});
 	}else if (command === 'np' || command === 'nowplaying') {
     
     if(!serverQueue) return msg.channel.send({ embed: { color: 0x1D82B6, description:'There is nothing playing'}});
@@ -261,7 +261,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
   
 var adedembed = new RichEmbed() 
 
-  .setColor('RANDOM')
+  .setColor(3553598)
   .setAuthor(`Added to Queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
   .addField('Title', `__[${song.title}](${song.url})__`, false)
@@ -297,7 +297,7 @@ function play(guild, song, msg) {
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
 var pleyembed = new RichEmbed() 
 
-  .setColor('RANDOM')
+  .setColor(3553598)
   .setAuthor(`Start Playing`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
   .addField('Title', `__[${song.title}](${song.url})__`, false)
