@@ -129,10 +129,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
  
     }else if (command === 'loop'){
 		const serverQueue = queue.get(msg.member.guild.id);
-		if(!serverQueue) return msg.channel.createMessage('❌ | Im not playing anything right now');
-		if(!msg.member.voiceState.channelID) return msg.channel.createMessage('❌ | You must join voice channel to loop/unloop queue');
+		if(!serverQueue) return msg.channel.send('❌ | Im not playing anything right now');
+		if(!msg.member.voiceChannel) return msg.channel.send('❌ | You must join voice channel to loop/unloop queue');
 		serverQueue.loop = !serverQueue.loop;
-		return msg.channel.createMessage(`✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`);
+		return msg.channel.send(`✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`);
 	}else if (command === 'np' || command === 'nowplaying') {
     
     if(!serverQueue) return msg.channel.send({ embed: { color: 0x1D82B6, description:'There is nothing playing'}});
