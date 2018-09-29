@@ -27,7 +27,7 @@
     "sqlite": "^3.0.0",
     "sqlite3": "^4.0.2",
     "superagent": "^3.8.3",
-    "snekfetch": "^4.0.4",
+    "snekfetch": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
