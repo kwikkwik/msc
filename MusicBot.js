@@ -228,7 +228,7 @@ var queueembed = new RichEmbed()
 
 .setColor('RANDOM') 
 .setTitle('Song queue') 
-.setDescription(`${serverQueue.songs.map(song => `**${++index}.** ${song.title}`).join('\n')}`) 
+.setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url})`).join('\n')}`) 
 
 
 return msg.channel.send(queueembed)
