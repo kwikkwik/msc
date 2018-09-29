@@ -5,7 +5,6 @@ const ytdl = require('ytdl-core');
 const opus = require("node-opus");
 const gyp = require("node-gyp");
 const fs = require('fs');
-const { RichEmbed } = require("discord.js");
 const { post } = require('snekfetch');
 const path = require("path");
 const SQL = require("sqlite3").verbose();
