@@ -12,6 +12,11 @@ const SQL = require("sqlite3").verbose();
 
 const client = new Client({ disableEveryone: true });
 
+client.util = require('./util.js')
+exports.util = () =>{
+return client.util
+}
+
 const youtube = new YouTube(process.env.YT_API);
 
 const queue = new Map();
@@ -66,9 +71,9 @@ msg.channel.send(embed)
         .setColor(color)
         .addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
         .addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
-        message.channel.send(embed)
+        msg.channel.send(embed)
     } catch(e) {
-        message.channel.send(`\`\`\`js\n${e}\n\`\`\``);
+        msg.channel.send(`\`\`\`js\n${e}\n\`\`\``);
     }
 } else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
@@ -183,7 +188,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
   .setThumbnail(serverQueue.songs[0].thumbnail)
   .setDescription(`▶ ${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`);
   
-  return msg.channel.send('🎶 **Now playing...**', { embed: emb});
+  return msg.channel.send({ embed: emb});
 };
 
 function progressBar(percent){
