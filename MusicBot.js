@@ -56,49 +56,21 @@ msg.channel.send(embed)
 	} else if (command === 'evm') {
 		var bot = client;
 		    if (message.author.id !== '335035386923581440') return;
-    const embed = new RichEmbed()
-    .setColor(color)
-    .addField('Input', '```js\n' + args.join(" ") + '```')
-
     try {
-      const code = args.join(" ");
-      if (!code) return;
-      let evaled;
-      if (code.includes(`token`)) {
-        evaled = 'My Token';
-      } else {
-        evaled = eval(code);
-      }
+        let codein = args.join(" ");
+        let code = eval(codein);
 
-      if (typeof evaled !== "string")
-      evaled = require('util').inspect(evaled, { depth: 0});
-
-      let output = clean(evaled);
-      if (output.length > 1024) {
-          const { body } = await post('https://www.hastebin.com/documents').send(output);
-          embed.addField('Output', `https://www.hastebin.com/${body.key}.js`);
-      } else {
-          embed.addField('Output', '```js\n' + output + '```');
-      }
-      message.channel.send(embed);
-    } catch (e) {
-      let error = clean(e);
-      if (error.length > 1024) {
-          const { body } = await post('https://www.hastebin.com/documents').send(error);
-          embed.addField('Error', `https://www.hastebin.com/${body.key}.js`);
-      } else {
-          embed.addField('Error', '```js\n' + error + '```');
-      }
-      message.channel.send(embed);
+        if (typeof code !== 'string')
+            code = require('util').inspect(code, { depth: 0 });
+        let embed = new Discord.RichEmbed()
+        .setAuthor('Evaluate')
+        .setColor(color)
+        .addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
+        .addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
+        message.channel.send(embed)
+    } catch(e) {
+        message.channel.send(`\`\`\`js\n${e}\n\`\`\``);
     }
-  });
-}
-
-function clean(text) {
-  if (typeof(text) === "string")
-    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
-  else
-      return text;
 } else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
