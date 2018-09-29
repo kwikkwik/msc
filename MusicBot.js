@@ -61,7 +61,7 @@ msg.channel.send(embed)
 		var bot = client;
 		    if (msg.author.id !== '335035386923581440') return;
     try {
-        let codein = args.join(" ");
+        let codein = args[0].join(" ");
         let code = eval(codein);
 
         if (typeof code !== 'string')
@@ -248,7 +248,7 @@ try{
 			queue = client.util.chunk(queue, 10);
 			embed.setDescription(queue[index].join('\n'));
 			embed.setFooter(`Page ${index+1} of ${queue.length}`);
-			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
 			await queueMess.react('⬅');
 			await queueMess.react('➡');
       awaitReactions();
@@ -261,13 +261,13 @@ try{
 					index = ((index % queue.length) + queue.length) % queue.length;
 					embed.setDescription(queue[index].join('\n'));
 					embed.setFooter(`Page ${index+1} of ${queue.length}`);
-					queueMess.edit(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+					queueMess.edit(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
 					return awaitReactions();
 				});
 			}
 		}else{
 		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`).join('\n'));
-		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
     }
 	}catch(e){
 		return msg.channel.send(`Oh no an error occured :( \`\`\`${e.stack}\`\`\`try again later`);
