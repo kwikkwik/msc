@@ -235,7 +235,7 @@ return msg.channel.send(queueembed)
 	}*/ if (command === 'queue' || command === 'q') {
 try{
 		let queue = [];
-		serverQueue.songs.forEach((x, i) => {
+		serverQueue.song.forEach((x, i) => {
 			if(i !== 0){
 				queue.push(x);
 			}
