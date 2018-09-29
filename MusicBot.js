@@ -244,7 +244,7 @@ try{
 		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**`, {embed: embed.setDescription('**No songs in queue**')});
 		if(queue.length > 10){
 			let index = 0;
-			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.requester.toString()}`);
+			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`);
 			queue = client.util.chunk(queue, 10);
 			embed.setDescription(queue[index].join('\n'));
 			embed.setFooter(`Page ${index+1} of ${queue.length}`);
@@ -266,7 +266,7 @@ try{
 				});
 			}
 		}else{
-		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.requester.toString()}`).join('\n'));
+		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`).join('\n'));
 		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
     }
 	}catch(e){
