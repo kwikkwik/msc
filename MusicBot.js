@@ -234,21 +234,22 @@ var queueembed = new RichEmbed()
 return msg.channel.send(queueembed)
 	}*/ if (command === 'queue' || command === 'q') {
 try{
+	        const serverQueue = queue.get(msg.guild.id)
 		let queue = [];
-		serverQueue.song.forEach((x, i) => {
+		serverQueue.songs.forEach((x, i) => {
 			if(i !== 0){
 				queue.push(x);
 			}
 		});
 			const embed = new RichEmbed().setColor('RANDOM');
-		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.song[0].title}**`, {embed: embed.setDescription('**No songs in queue**')});
+		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**`, {embed: embed.setDescription('**No songs in queue**')});
 		if(queue.length > 10){
 			let index = 0;
 			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`);
 			queue = client.util.chunk(queue, 10);
 			embed.setDescription(queue[index].join('\n'));
 			embed.setFooter(`Page ${index+1} of ${queue.length}`);
-			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
+			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
 			await queueMess.react('⬅');
 			await queueMess.react('➡');
       awaitReactions();
@@ -261,13 +262,13 @@ try{
 					index = ((index % queue.length) + queue.length) % queue.length;
 					embed.setDescription(queue[index].join('\n'));
 					embed.setFooter(`Page ${index+1} of ${queue.length}`);
-					queueMess.edit(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
+					queueMess.edit(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
 					return awaitReactions();
 				});
 			}
 		}else{
 		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`).join('\n'));
-		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.song.length - 1} entries`, {embed: embed});
+		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
     }
 	}catch(e){
 		return msg.channel.send(`Oh no an error occured :( \`\`\`${e.stack}\`\`\`try again later`);
