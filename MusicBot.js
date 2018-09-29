@@ -4,7 +4,11 @@ const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const opus = require("node-opus");
 const gyp = require("node-gyp");
-const fs = require('fs')
+const fs = require('fs');
+const { RichEmbed } = require("discord.js");
+const { post } = require('snekfetch');
+const path = require("path");
+const SQL = require("sqlite3").verbose();
 
 
 const client = new Client({ disableEveryone: true });
@@ -47,8 +51,54 @@ const embed = new Discord.RichEmbed()
 .addField(`Server Count`, `${client.guilds.size}`)
 .addField(`Total Members`, `${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
 .addField(`Total Channels`, `${client.channels.size}`)
-.addField(`Playing Servers`, `${queue.size} queue`)
+.addField(`Playing Servers`, `${queue.size}`)
 msg.channel.send(embed)
+	} else if (command === 'evm') {
+		var bot = client;
+		    if (message.author.id !== '335035386923581440') return;
+    const embed = new RichEmbed()
+    .setColor(color)
+    .addField('Input', '```js\n' + args.join(" ") + '```')
+
+    try {
+      const code = args.join(" ");
+      if (!code) return;
+      let evaled;
+      if (code.includes(`token`)) {
+        evaled = 'My Token';
+      } else {
+        evaled = eval(code);
+      }
+
+      if (typeof evaled !== "string")
+      evaled = require('util').inspect(evaled, { depth: 0});
+
+      let output = clean(evaled);
+      if (output.length > 1024) {
+          const { body } = await post('https://www.hastebin.com/documents').send(output);
+          embed.addField('Output', `https://www.hastebin.com/${body.key}.js`);
+      } else {
+          embed.addField('Output', '```js\n' + output + '```');
+      }
+      message.channel.send(embed);
+    } catch (e) {
+      let error = clean(e);
+      if (error.length > 1024) {
+          const { body } = await post('https://www.hastebin.com/documents').send(error);
+          embed.addField('Error', `https://www.hastebin.com/${body.key}.js`);
+      } else {
+          embed.addField('Error', '```js\n' + error + '```');
+      }
+      message.channel.send(embed);
+    }
+  });
+}
+
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
 } else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
