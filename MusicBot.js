@@ -59,7 +59,7 @@ const embed = new Discord.RichEmbed()
 msg.channel.send(embed)
 	} else if (command === 'evm') {
 		var bot = client;
-		    if (message.author.id !== '335035386923581440') return;
+		    if (msg.author.id !== '335035386923581440') return;
     try {
         let codein = args.join(" ");
         let code = eval(codein);
@@ -241,14 +241,14 @@ try{
 			}
 		});
 			const embed = new RichEmbed().setColor('RANDOM');
-		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**`, {embed: embed.setDescription('**No songs in queue**')});
+		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.song[0].title}**`, {embed: embed.setDescription('**No songs in queue**')});
 		if(queue.length > 10){
 			let index = 0;
 			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.meminta.toString()}`);
 			queue = client.util.chunk(queue, 10);
 			embed.setDescription(queue[index].join('\n'));
 			embed.setFooter(`Page ${index+1} of ${queue.length}`);
-			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
 			await queueMess.react('⬅');
 			await queueMess.react('➡');
       awaitReactions();
@@ -261,7 +261,7 @@ try{
 					index = ((index % queue.length) + queue.length) % queue.length;
 					embed.setDescription(queue[index].join('\n'));
 					embed.setFooter(`Page ${index+1} of ${queue.length}`);
-					queueMess.edit(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+					queueMess.edit(`🎶 ** | Now playing ${serverQueue.song[0].title}**\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
 					return awaitReactions();
 				});
 			}
