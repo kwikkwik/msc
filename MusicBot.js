@@ -50,7 +50,7 @@ client.on('message', async msg => { // eslint-disable-line
         if(command === 'mstats'){
 const Discord = require('discord.js')
 const embed = new Discord.RichEmbed()
-.setColor('DARK_BLUE')
+.setColor(3553598)
 .setAuthor(client.user.username, client.user.avatarURL)
 .addField(`Server Count`, `${client.guilds.size}`)
 .addField(`Total Members`, `${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
@@ -93,7 +93,7 @@ msg.channel.send(embed)
 				const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
 				await handleVideo(video2, msg, voiceChannel, true); // eslint-disable-line no-await-in-loop
 			}
-			return msg.channel.send({ embed: { description: `✅ Playlist: **${playlist.title}** has been added to the queue!`}});
+			return msg.channel.send({ embed: { color:3553598, description: `✅ Playlist: **${playlist.title}** has been added to the queue!`}});
 		} else {
 			try {
 				var video = await youtube.getVideo(url);
@@ -103,7 +103,7 @@ msg.channel.send(embed)
 					let index = 0;
 					
  var selectembed = new RichEmbed()
- .setColor('RANDOM') 
+ .setColor(3553598) 
  .setTitle('Song selection')
  .setDescription(`${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}`) 
  .setFooter('Please provide a value to select one of the search results ranging from 1-10') 
@@ -123,7 +123,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 						console.error(err);
 						const noPick = new RichEmbed()
             .setDescription("No or invalid value entered, cancelling video selection.")
-            .setColor('RANDOM')
+            .setColor(3553598)
             msg.channel.send({embed: noPick});
             msgtoDelete.delete()
             return;
@@ -139,27 +139,27 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			return handleVideo(video, msg, voiceChannel);
 		}
 	} else if (command === 'skip' || command === 's') {
-		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
-		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing that I could skip for you.'}});
+		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { color:3553598, description: 'You are not in a voice channel!'}});
+		if (!serverQueue) return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing that I could skip for you.'}});
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 		return undefined;
 	} else if (command === 'stop' || command === 'st') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
-		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing that I could stop for you.'}});
+		if (!serverQueue) return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing that I could stop for you.'}});
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
-		return msg.channel.send({ embed: { color: 0xef090, description: 'The music has stopped and I has left the voice channel!'}});
+		return msg.channel.send({ embed: { color: 3553598, description: 'The music has stopped and I has left the voice channel!'}});
 	} else if (command === 'volume' || command === 'v') {
 
 			if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
     var botRoleColorSync = msg.guild.member(client.user).highestRole.color;
-		if (!args[1]) return msg.channel.send({embed: { color: 0x32ffe7,  description: `The current volume is: **${serverQueue.volume}**%`}});
+		if (!args[1]) return msg.channel.send({embed: { color: 3553598,  description: `The current volume is: **${serverQueue.volume}**%`}});
 		serverQueue.volume = args[1];
-    if (args[1] > 100) return msg.channel.send({ embed: { description: `${msg.author} Volume limit is 100%, please do not hurt yourself!`}});
+    if (args[1] > 100) return msg.channel.send({ embed: { color:3553598, description: `${msg.author} Volume limit is 100%, please do not hurt yourself!`}});
     serverQueue.volume = args[1];
     if (args[1] > 100) return !serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) +
-    msg.channel.send({ embed: { description: `${msg.author} Volume limit is 100%, please do not hurt yourself!`}});
+    msg.channel.send({ embed: { color:3553598, description: `${msg.author} Volume limit is 100%, please do not hurt yourself!`}});
  
     if (args[1] < 101) return serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) + msg.channel.send({ embed: { description: `I set the volume to: __**${args[1]}**%__`}});
 
@@ -169,10 +169,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 		if(!serverQueue) return msg.channel.send({ embed: { description: '❌ | Im not playing anything right now'}});
 		if(!msg.member.voiceChannel) return msg.channel.send({ embed: { description: '❌ | You must join voice channel to loop/unloop queue'}});
 		serverQueue.loop = !serverQueue.loop;
-		return msg.channel.send({ embed: { description: `✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`}});
+		return msg.channel.send({ embed: { color:3553598, description: `✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`}});
 	}else if (command === 'np' || command === 'nowplaying') {
     
-    if(!serverQueue) return msg.channel.send({ embed: { color: 0x1D82B6, description:'There is nothing playing'}});
+    if(!serverQueue) return msg.channel.send({ embed: { color: 3553598, description:'There is nothing playing'}});
   const duration = (serverQueue.songs[0].duration.minutes*60000) + ((serverQueue.songs[0].duration.seconds%60000)*1000);
   const persentase = serverQueue.connection.dispatcher.time/duration;
   const curentDurationMinute = Math.floor(serverQueue.connection.dispatcher.time/60000) < 10 ? `0${Math.floor(serverQueue.connection.dispatcher.time/60000)}` : Math.floor(serverQueue.connection.dispatcher.time/60000);
@@ -181,7 +181,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
   const endDurationSeconds = serverQueue.songs[0].duration.seconds < 10 ? `0${serverQueue.songs[0].duration.seconds}` : serverQueue.songs[0].duration.seconds;
   
   const emb = new RichEmbed()
-  .setColor('RANDOM')
+  .setColor(3553598)
   .setAuthor(serverQueue.songs[0].author.tag, serverQueue.songs[0].author.avatarURL)
   .setTitle(serverQueue.songs[0].title)
   .setURL(serverQueue.songs[0].url)
@@ -226,9 +226,9 @@ function progressBar(percent){
     let index = 0;
 var queueembed = new RichEmbed() 
 
-.setColor('RANDOM') 
+.setColor(3553598) 
 .setTitle('Song queue') 
-.setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url})`).join('\n')}`) 
+.setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url}) by ${song.author}`).join('\n')}`) 
 
 
 return msg.channel.send(queueembed)
@@ -236,16 +236,16 @@ return msg.channel.send(queueembed)
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
-			return msg.channel.send({ embed: { description: '⏸ Paused the music for you!'}});
+			return msg.channel.send({ embed: { color:3553598, description: '⏸ Paused the music for you!'}});
 		}
 		return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
 	} else if (command === 'resume') {
 		if (serverQueue && !serverQueue.playing) {
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
-			return msg.channel.send({ embed: { description: '▶ Resumed the music for you!'}});
+			return msg.channel.send({ embed: { color:3553598, description: '▶ Resumed the music for you!'}});
 		}
-		return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
+		return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing.'}});
 	}
 
 	return undefined;
@@ -289,7 +289,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
 		} catch (error) {
 			console.error(`I could not join the voice channel: ${error}`);
 			queue.delete(msg.guild.id);
-			return msg.channel.send({ embed: { description: `I could not join the voice channel: ${error}`}});
+			return msg.channel.send({ embed: { color:3553598, description: `I could not join the voice channel: ${error}`}});
 		}
 	} else {
 		serverQueue.songs.push(song);
