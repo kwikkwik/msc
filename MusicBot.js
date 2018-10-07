@@ -228,7 +228,7 @@ function progressBar(percent){
 var queueembed = new RichEmbed() 
 
 .setColor(3553598) 
-.setTitle(`Song Queue (${serverQueue.loop ? 'loop' : ''})`)
+.setTitle(`Song Queue ${serverQueue.loop ? '[loop]' : ''}`)
 .setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url}) by ${song.author}`).join('\n')}`) 
 
 
@@ -342,7 +342,6 @@ var pleyembed = new RichEmbed()
   .addField("Video Uploader", `[${song.uploadedby}](${song.channelurl})`, true)
   .addField('Requested by', `${song.meminta}`, true)
   .addField('Voice Channel', `**${song.mamang}**`, true)
-  .addField('Repeat', `${serverQueue.loop}`, true)
   .addField("Volume", `${serverQueue.volume}%`, true)
   .addField("Duration", `${song.durationh} Hours, ${song.durationm} Minutes, ${song.durations} Seconds`, true)
   .setFooter("If you can't hear the music, please reconnect. If you still can't hear maybe the bot is restarting!")
