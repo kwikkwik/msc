@@ -52,7 +52,7 @@ const Discord = require('discord.js')
 const embed = new Discord.RichEmbed()
 .setColor(3553598)
 .setAuthor(client.user.username, client.user.avatarURL)
-.setDescription(client.ping)
+.setDescription(`Ping: ${client.ping.toFixed(2)}ms`)
 .addField(`Server Count`, `${client.guilds.size}`)
 .addField(`Total Members`, `${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
 .addField(`Total Channels`, `${client.channels.size}`)
@@ -69,7 +69,7 @@ msg.channel.send(embed)
             code = require('util').inspect(code, { depth: 0 });
         let embed = new Discord.RichEmbed()
         .setAuthor('Evaluate')
-        .setColor(color)
+        .setColor(3553598)
         .addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
         .addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
         msg.channel.send(embed)
@@ -228,7 +228,7 @@ function progressBar(percent){
 var queueembed = new RichEmbed() 
 
 .setColor(3553598) 
-.setTitle('Song queue') 
+.setTitle(`Song Queue (${serverQueue.loop ? 'loop' : ''})`)
 .setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url}) by ${song.author}`).join('\n')}`) 
 
 
