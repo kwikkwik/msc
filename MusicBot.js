@@ -52,10 +52,11 @@ const Discord = require('discord.js')
 const embed = new Discord.RichEmbed()
 .setColor(3553598)
 .setAuthor(client.user.username, client.user.avatarURL)
+.setDescription(client.ping)
 .addField(`Server Count`, `${client.guilds.size}`)
 .addField(`Total Members`, `${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
 .addField(`Total Channels`, `${client.channels.size}`)
-.addField(`Playing Servers`, `${queue.size}`)
+.addField(`Playing In`, `${queue.size} Server`)
 msg.channel.send(embed)
 	} else if (command === 'evm') {
 		var bot = client;
@@ -77,13 +78,13 @@ msg.channel.send(embed)
     }
 } else if (command === 'play' || command === 'p') {
 		const voiceChannel = msg.member.voiceChannel;
-		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
+		if (!voiceChannel) return msg.channel.send({ embed: { color:3553598, description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
 		if (!permissions.has('CONNECT')) {
-			return msg.channel.send({ embed: { description: 'I cannot connect to your voice channel, make sure I have the proper permissions!'}});
+			return msg.channel.send({ embed: { color:3553598, description: 'I cannot connect to your voice channel, make sure I have the proper permissions!'}});
 		}
 		if (!permissions.has('SPEAK')) {
-			return msg.channel.send({ embed: { description: 'I cannot speak in this voice channel, make sure I have the proper permissions!'}});
+			return msg.channel.send({ embed: { color:3553598, description: 'I cannot speak in this voice channel, make sure I have the proper permissions!'}});
 		}
 
 		if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
