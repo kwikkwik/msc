@@ -242,7 +242,7 @@ return msg.channel.send(queueembed)*/
 	return arr;
 }
 		try{
-		const queue = queue.get(msg.guild.id);
+		//const queue = queue.get(msg.guild.id);
 		if(!serverQueue) return msg.channel.send('Not playing anything right now');
 		const nowPlay = serverQueue.songs[0];
 		const q = serverQueue.songs.slice(1);
