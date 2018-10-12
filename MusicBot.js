@@ -249,7 +249,7 @@ return msg.channel.send(queueembed)*/
 		var queueembed = new RichEmbed()
 		.setColor(3553598) 
                 .setTitle(`Song Queue ${serverQueue.loop ? '[loop]' : ''}`)
-		.setDescription(`${trimArray(q.map(x => [x.title](x.url) + "by" + x.author)).map((x, i) => `${i+1}. ${x}`).join('\n')}`)
+		.setDescription(`${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. __**[${x.title}](${x.url})**__ **by** ${x.author}`).join('\n')}`)
 		return msg.channel.send(`
 **Now Playing**: ${nowPlay.title}`, {embed: queueembed});
 	} catch (err) {
