@@ -223,7 +223,7 @@ function progressBar(percent){
   } 
   
 } if (command === 'queue' || command === 'q') {
-		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
+		//if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
 /*    let index = 0;
 var queueembed = new RichEmbed() 
 
@@ -233,6 +233,14 @@ var queueembed = new RichEmbed()
 
 
 return msg.channel.send(queueembed)*/
+		function trimArray(arr, maxLen = 10) {
+	if (arr.length > maxLen) {
+		const len = arr.length - maxLen;
+		arr = arr.slice(0, maxLen);
+		arr.push(`${len} more...`);
+	}
+	return arr;
+}
 		try{
 		const queue = queue.get(msg.guild.id);
 		if(!queue) return msg.channel.send('Not playing anything right now');
@@ -244,15 +252,6 @@ ${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. ${x}`).join('\n')}`);
 	} catch (err) {
 		return msg.channel.send(err.stack, { code: 'ini' });
 	}
-}
-	
-	function trimArray(arr, maxLen = 10) {
-	if (arr.length > maxLen) {
-		const len = arr.length - maxLen;
-		arr = arr.slice(0, maxLen);
-		arr.push(`${len} more...`);
-	}
-	return arr;
 } else if (command === 'pause') {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
