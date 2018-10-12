@@ -222,7 +222,7 @@ function progressBar(percent){
 		return '🔘▬▬▬▬▬▬▬▬▬▬▬';
   } 
   
-} if (command === 'queue' || command === 'q') {
+} /*if (command === 'queue' || command === 'q') {
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
     let index = 0;
 var queueembed = new RichEmbed() 
@@ -232,7 +232,56 @@ var queueembed = new RichEmbed()
 .setDescription(`${serverQueue.songs.map(song => `**${++index}.** [${song.title}](${song.url}) by ${song.author}`).join('\n')}`) 
 
 
-return msg.channel.send(queueembed)
+return msg.channel.send(queueembed)*/
+	if (command === 'queue' || command === 'q') {
+		  function chunk (array, chunkSize){
+    const temp = [];
+    for(let i = 0; i < array.length; i+= chunkSize){
+      temp.push(array.slice(i, i+chunkSize));
+    }
+    return temp;
+  }
+	try{
+		const serverQueue = queue.get(msg.guild.id);
+		if(!serverQueue) return msg.channel.send('Not playing anything right now');
+		let queue = [];
+		serverQueue.songs.forEach((x, i) => {
+			if(i !== 0){
+				queue.push(x);
+			}
+		});
+		const embed = new Discord.RichEmbed().setColor(3553598);
+		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**\n, {embed: embed.setDescription('**No songs in queue**')});
+		if(queue.length > 10){
+			let index = 0;
+			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.author.toString()}`);
+			queue = chunk(queue, 10);
+			embed.setDescription(queue[index].join('\n'));
+			embed.setFooter(`Page ${index+1} of ${queue.length}`);
+			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+			await queueMess.react('⬅');
+			await queueMess.react('➡');
+      awaitReactions();
+			function awaitReactions(){
+				const filter = (rect, usr)=> ['⬅', '➡'].includes(rect.emoji.name) && usr.id === msg.author.id;
+				queueMess.createReactionCollector(filter, {time: 30000, max: 1})
+				.on('collect', col => {
+					if(col.emoji.name === '⬅') index--;
+					if(col.emoji.name === '➡') index++;
+					index = ((index % queue.length) + queue.length) % queue.length;
+					embed.setDescription(queue[index].join('\n'));
+					embed.setFooter(`Page ${index+1} of ${queue.length}`);
+					queueMess.edit(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+					return awaitReactions();
+				});
+			}
+		}else{
+		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.author.toString()}`).join('\n'));
+		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
+    }
+	}catch(e){
+		return msg.channel.send(`Oh no an error occured :( \`\`\`${e.stack}\`\`\`try again later`);
+	}
 	} else if (command === 'pause') {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
