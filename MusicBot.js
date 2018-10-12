@@ -222,9 +222,9 @@ function progressBar(percent){
 		return '🔘▬▬▬▬▬▬▬▬▬▬▬';
   } 
   
-} /*if (command === 'queue' || command === 'q') {
+} if (command === 'queue' || command === 'q') {
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing.'}});
-    let index = 0;
+/*    let index = 0;
 var queueembed = new RichEmbed() 
 
 .setColor(3553598) 
@@ -233,56 +233,27 @@ var queueembed = new RichEmbed()
 
 
 return msg.channel.send(queueembed)*/
-	if (command === 'queue' || command === 'q') {
-		  function chunk (array, chunkSize){
-    const temp = [];
-    for(let i = 0; i < array.length; i+= chunkSize){
-      temp.push(array.slice(i, i+chunkSize));
-    }
-    return temp;
-  }
-	try{
-		const serverQueue = queue.get(msg.guild.id);
-		if(!serverQueue) return msg.channel.send('Not playing anything right now');
-		let queue = [];
-		serverQueue.songs.forEach((x, i) => {
-			if(i !== 0){
-				queue.push(x);
-			}
-		});
-		const embed = new Discord.RichEmbed().setColor(3553598);
-		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**\n, {embed: embed.setDescription('**No songs in queue**')});
-		if(queue.length > 10){
-			let index = 0;
-			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.requester.toString()}`);
-			queue = chunk(queue, 10);
-			embed.setDescription(queue[index].join('\n'));
-			embed.setFooter(`Page ${index+1} of ${queue.length}`);
-			const queueMess = await msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
-			await queueMess.react('⬅');
-			await queueMess.react('➡');
-      awaitReactions();
-			function awaitReactions(){
-				const filter = (rect, usr)=> ['⬅', '➡'].includes(rect.emoji.name) && usr.id === msg.author.id;
-				queueMess.createReactionCollector(filter, {time: 30000, max: 1})
-				.on('collect', col => {
-					if(col.emoji.name === '⬅') index--;
-					if(col.emoji.name === '➡') index++;
-					index = ((index % queue.length) + queue.length) % queue.length;
-					embed.setDescription(queue[index].join('\n'));
-					embed.setFooter(`Page ${index+1} of ${queue.length}`);
-					queueMess.edit(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
-					return awaitReactions();
-				});
-			}
-		}else{
-		 embed.setDescription(queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.author.toString()}`).join('\n'));
-		 return msg.channel.send(`🎶 ** | Now playing ${serverQueue.songs[0].title}**\n\n\n🎶 Current queue | ${serverQueue.songs.length - 1} entries`, {embed: embed});
-    }
-	}catch(e){
-		return msg.channel.send(`Oh no an error occured :( \`\`\`${e.stack}\`\`\`try again later`);
+		try{
+		const queue = queue.get(msg.guild.id);
+		if(!queue) return msg.channel.send('Not playing anything right now');
+		const nowPlay = queue.songs[0];
+		const q = queue.songs.slice(1);
+		return msg.channel.send(`
+**Now Playing**: ${nowPlay.title}
+${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. ${x}`).join('\n')}`);
+	} catch (err) {
+		return msg.channel.send(err.stack, { code: 'ini' });
 	}
-	} else if (command === 'pause') {
+}
+	
+	function trimArray(arr, maxLen = 10) {
+	if (arr.length > maxLen) {
+		const len = arr.length - maxLen;
+		arr = arr.slice(0, maxLen);
+		arr.push(`${len} more...`);
+	}
+	return arr;
+} else if (command === 'pause') {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
