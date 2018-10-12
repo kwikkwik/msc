@@ -254,7 +254,7 @@ return msg.channel.send(queueembed)*/
 		if(!queue || queue.length < 1) return msg.channel.send(`🎶** | Now playing ${serverQueue.songs[0].title}**\n, {embed: embed.setDescription('**No songs in queue**')});
 		if(queue.length > 10){
 			let index = 0;
-			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.author.toString()}`);
+			queue = queue.map((x, i) => `\`${i +1}\`. __**[${x.title}](${x.url})**__ **by** ${x.author}`);
 			queue = chunk(queue, 10);
 			embed.setDescription(queue[index].join('\n'));
 			embed.setFooter(`Page ${index+1} of ${queue.length}`);
