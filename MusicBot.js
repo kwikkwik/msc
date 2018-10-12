@@ -246,9 +246,12 @@ return msg.channel.send(queueembed)*/
 		if(!serverQueue) return msg.channel.send('Not playing anything right now');
 		const nowPlay = serverQueue.songs[0];
 		const q = serverQueue.songs.slice(1);
+		var queueembed = new RichEmbed()
+		.setColor(3553598) 
+                .setTitle(`Song Queue ${serverQueue.loop ? '[loop]' : ''}`)
+		.setDescription(`${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. ${x}`).join('\n')}`)
 		return msg.channel.send(`
-**Now Playing**: ${nowPlay.title}
-${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. ${x}`).join('\n')}`);
+**Now Playing**: ${nowPlay.title}`, {embed: queueembed});
 	} catch (err) {
 		return msg.channel.send(err.stack, { code: 'ini' });
 	}
@@ -321,7 +324,7 @@ var adedembed = new RichEmbed()
   .setColor(3553598)
   .setAuthor(`Added to Queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
-  .addField('Title', `__[${song.title}](${song.url})__`, false)
+  .addField('Title', `**[${song.title}](${song.url})**`, false)
   .addField("Video Uploader", `[${song.uploadedby}](${song.channelurl})`, true)
   .addField("Duration", `${song.durationh} Hours, ${song.durationm} Minutes, ${song.durations} Seconds`, true)
   .addField('Requested by', `${song.meminta}`)
@@ -357,7 +360,7 @@ var pleyembed = new RichEmbed()
   .setColor(3553598)
   .setAuthor(`Start Playing`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
-  .addField('Title', `__[${song.title}](${song.url})__`, false)
+  .addField('Title', `**[${song.title}](${song.url})**`, false)
   .addField("Video Uploader", `[${song.uploadedby}](${song.channelurl})`, true)
   .addField('Requested by', `${song.meminta}`, true)
   .addField('Voice Channel', `**${song.mamang}**`, true)
