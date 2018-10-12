@@ -243,9 +243,9 @@ return msg.channel.send(queueembed)*/
 }
 		try{
 		const queue = queue.get(msg.guild.id);
-		if(!queue) return msg.channel.send('Not playing anything right now');
-		const nowPlay = queue.songs[0];
-		const q = queue.songs.slice(1);
+		if(!serverQueue) return msg.channel.send('Not playing anything right now');
+		const nowPlay = serverQueue.songs[0];
+		const q = serverQueue.songs.slice(1);
 		return msg.channel.send(`
 **Now Playing**: ${nowPlay.title}
 ${trimArray(q.map(x => x.title)).map((x, i) => `${i+1}. ${x}`).join('\n')}`);
