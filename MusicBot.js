@@ -18,7 +18,11 @@ exports.util = () =>{
 return client.util
 }
 
-var commandcooldown = new Set();
+let commandcooldown = cooldown;
+
+let cdseconds = 5;
+
+const cooldowns = new Discord.Collection()
 
 const youtube = new YouTube(process.env.YT_API);
 
