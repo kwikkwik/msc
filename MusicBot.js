@@ -32,18 +32,49 @@ client.on('disconnect', () => console.log('I just disconnected, making sure you 
 client.on('reconnecting', () => console.log('I am reconnecting now!'));
 
 client.on('message', async msg => { // eslint-disable-line
+	var message = msg;
+	
+	if (message.channel.type === 'dm') return;
+	
+	var DEFAULTPREFIX = '^'
+	
+	var {body} = await superagent
+        .get("https://master-bot-social.glitch.me/prefixes")
+	
+	if (!body[message.guild.id]) {
+        body[message.guild.id] = {
+            prefixes: DEFAULTPREFIX
+        };
+    }
+	var PREFIX = body[message.guild.id].prefixes
+	
 	if (msg.author.bot) return undefined;
-	if (!msg.content.startsWith(prefix)) return undefined;
+	if (!msg.content.startsWith(PREFIX)) return undefined;
+	
+	if (!message.guild) return;
+
+  if (cooldown.has(message.author.id)) {
+    return;// message.reply("Please wait **`5 Seconds`** cooldown...").then(m => m.delete(5000));
+  }
+  if (!message.member.hasPermission("ADMINISTRATOR")) {
+    cooldown.add(message.author.id);
+  }
+	    setTimeout(() => {
+        commandcooldown.delete(message.author.id);
+    }, 2000); //2000 ms = 2 detik\
 	
 	client.user.setActivity('', {type: 'STREAMING'});
 
 	const args = msg.content.split(' ');
+	
 	const searchString = args.slice(1).join(' ');
+	
 	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
+	
 	const serverQueue = queue.get(msg.guild.id);
 
 	let command = msg.content.toLowerCase().split(' ')[0];
-	command = command.slice(prefix.length)
+	command = command.slice(PREFIX.length)
 	
 	
 	
@@ -58,18 +89,17 @@ const embed = new Discord.RichEmbed()
 .addField(`Total Channels`, `${client.channels.size}`)
 .addField(`Playing In`, `${queue.size} Server`)
 msg.channel.send(embed)
-	} else if (command === 'evm') {
-		var bot = client;
-		    if (msg.author.id !== '335035386923581440') return;
+	} else 	if (command === 'evm') {
+    if (msg.author.id !== '335035386923581440') return;
     try {
-        let codein = args[0].join(" ");
+        let codein = args.slice(1).join(' ');
         let code = eval(codein);
 
         if (typeof code !== 'string')
             code = require('util').inspect(code, { depth: 0 });
         let embed = new Discord.RichEmbed()
         .setAuthor('Evaluate')
-        .setColor(3553598)
+        .setColor('RANDOM')
         .addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
         .addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
         msg.channel.send(embed)
@@ -77,6 +107,10 @@ msg.channel.send(embed)
         msg.channel.send(`\`\`\`js\n${e}\n\`\`\``);
     }
 } else if (command === 'play' || command === 'p') {
+	var searchString = args.slice(1).join(" ");
+        if(!searchString) return msg.channel.send({embed: { color:3553598,
+          description: `<a:iconalert:465259242320953344> Please usage: \`${PREFIX}play <Song name | URL | Playlist URL>\``
+        }})
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { color:3553598, description: 'I\'m sorry but you need to be in a voice channel to play music!'}});
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
@@ -195,10 +229,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
  
     }else if (command === 'loop' || command === 'repeat'){
 		const serverQueue = queue.get(msg.member.guild.id);
-		if(!serverQueue) return msg.channel.send({ embed: { description: '❌ | Im not playing anything right now'}});
-		if(!msg.member.voiceChannel) return msg.channel.send({ embed: { description: '❌ | You must join voice channel to loop/unloop queue'}});
+		if(!serverQueue) return msg.channel.send({ embed: { color:3553598, description: '❌ | Im not playing anything right now'}});
+		if(!msg.member.voiceChannel) return msg.channel.send({ embed: { color:3553598, description: '❌ | You must join voice channel to loop/unloop queue'}});
 		serverQueue.loop = !serverQueue.loop;
-		return msg.channel.send({ embed: { color:3553598, description: `✅ | ${serverQueue.loop ? 'loop' : 'unloop' } current queue`}});
+		return msg.channel.send({ embed: { color:3553598, description: `${serverQueue.loop ? '<:m_toggleon:500582129810407425> loop on' : '<:m_toggleoff:500582170394492929> loop off' }`}});
 	}else if (command === 'np' || command === 'nowplaying') {
     
     if(!serverQueue) return msg.channel.send({ embed: { color: 3553598, description:'There is nothing playing'}});
@@ -276,7 +310,7 @@ return msg.channel.send(queueembed)*/
 		const q = serverQueue.songs.slice(1);
 		var queueembed = new RichEmbed()
 		.setColor(3553598) 
-                .setTitle(`Song Queue ${serverQueue.loop ? '[loop]' : ''}`)
+                .setTitle(`Song Queue ${serverQueue.loop ? '[ loop ]' : ''}`)
 		.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
 		return msg.channel.send(`
 **Now Playing**: ${nowPlay.title}`, {embed: queueembed});
@@ -400,5 +434,39 @@ var pleyembed = new RichEmbed()
 	serverQueue.textChannel.send(pleyembed);
 
 }
+
+client.on('message', message => {
+  
+	var DEFAULTPREFIX = '^'
+	
+	var {body} = await superagent
+        .get("https://master-bot-social.glitch.me/prefixes")
+	
+	if (!body[message.guild.id]) {
+        body[message.guild.id] = {
+            prefixes: DEFAULTPREFIX
+        };
+    }
+	var PREFIX = body[message.guild.id].prefixes
+   // let prefix = prefixes[message.guild.id].prefixes;
+    let msg = message.content.toLowerCase();
+    let sender = message.author;
+    let args = message.content.slice(PREFIX.length).trim().split(" ");
+    let cmd = args.shift().toLowerCase();
+  
+    if (sender.bot) return;
+    if (!message.content.startsWith(PREFIX)) return;
+    if (message.channel.type === 'dm') return;
+
+    try {
+        let commandFile = require(`./commands/${cmd}.js`);
+        commandFile.run(client, message, args);
+    } catch(e) {
+        console.log(e.message);
+    } finally {
+        console.log(`${message.author.username} ran the command: ${cmd}`);
+    }
+});
+
 
 client.login(process.env.BOT_TOKEN);
