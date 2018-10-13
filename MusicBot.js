@@ -107,7 +107,6 @@ msg.channel.send(embed)
         msg.channel.send(`\`\`\`js\n${e}\n\`\`\``);
     }
 } else if (command === 'play' || command === 'p') {
-	var searchString = args.slice(1).join(" ");
         if(!searchString) return msg.channel.send({embed: { color:3553598,
           description: `<a:iconalert:465259242320953344> Please usage: \`${PREFIX}play <Song name | URL | Playlist URL>\``
         }})
