@@ -18,6 +18,8 @@ exports.util = () =>{
 return client.util
 }
 
+var commandcooldown = new Set();
+
 const youtube = new YouTube(process.env.YT_API);
 
 const queue = new Map();
