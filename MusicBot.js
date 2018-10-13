@@ -443,7 +443,7 @@ var pleyembed = new RichEmbed()
 
 }
 
-client.on('message', message => {
+client.on('message', async message => {
 	const superagent = require("superagent");
   
 	var DEFAULTPREFIX = '^'
