@@ -8,6 +8,7 @@ const fs = require('fs');
 const { post } = require('snekfetch');
 const path = require("path");
 const SQL = require("sqlite3").verbose();
+const superagent = require("superagent");
 
 
 const client = new Client({ disableEveryone: true });
