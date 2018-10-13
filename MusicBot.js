@@ -139,6 +139,34 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			}
 			return handleVideo(video, msg, voiceChannel);
 		}
+	} else if (command === 'forceplay' || command === 'fplay') {
+	if(!args.length) return msg.channel.send(`**Please provide Song Title**`);
+	try{
+		const vc = msg.member.voiceChannel;
+		if(!vc) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
+		if(!vc.permissionsFor(client.user).has(['CONNECT', 'SPEAK'])) return msg.channel.send('🚫 | Missing perm **CONNECT** or **SPEAK**');
+		if(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/.test(args[0])){
+			const playlist = await youtube.getPlaylist(args[0]);
+			const videos = await playlist.getVideos();
+			for (const video of Object.values(videos)) {
+				const vid = await youtube.getVideoByID(video.id);
+				await handleVideo(vid, msg, vc, true);
+			}
+			return msg.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue!`);
+		}
+				if(/https?:\/\//gi.test(args[0])){
+			const video = await youtube.getVideo(args[0]);
+			return handleVideo(video, msg, vc);
+		}
+		const videos = await youtube.searchVideos(args.join(' '), 1);
+		if(!videos.length) return msg.channel.send('🚫 | No result found');
+		const video = await youtube.getVideoByID(videos[0].id);
+		return handleVideo(video, msg, vc);
+	} catch (err) {
+		return msg.channel.send(err.stack, { code: 'ini' });
+	}
+		
+		
 	} else if (command === 'skip' || command === 's') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { color:3553598, description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing that I could skip for you.'}});
