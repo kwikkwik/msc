@@ -55,7 +55,7 @@ client.on('message', async msg => { // eslint-disable-line
             prefixes: DEFAULTPREFIX
         };
     }
-	var PREFIX = body[message.guild.id].prefixes
+	const PREFIX = body[message.guild.id].prefixes
 	
 	if (msg.author.bot) return undefined;
 	if (!msg.content.startsWith(PREFIX)) return undefined;
@@ -444,6 +444,7 @@ var pleyembed = new RichEmbed()
 }
 
 client.on('message', message => {
+	const superagent = require("superagent");
   
 	var DEFAULTPREFIX = '^'
 	
