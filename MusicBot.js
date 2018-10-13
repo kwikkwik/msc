@@ -18,6 +18,8 @@ exports.util = () =>{
 return client.util
 }
 
+let {cooldown} = require("./cooldown.js")
+
 let commandcooldown = cooldown;
 
 let cdseconds = 5;
