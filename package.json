@@ -28,7 +28,8 @@
     "sqlite3": "^4.0.2",
     "superagent": "^3.8.3",
     "snekfetch": "^4.0.4",
-    "node-superfetch": "^0.1.2"
+    "node-superfetch": "^0.1.2",
+    "superagent": "^3.8.3"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
