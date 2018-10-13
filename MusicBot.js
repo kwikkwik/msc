@@ -443,7 +443,7 @@ var pleyembed = new RichEmbed()
 
 }
 
-/*client.on('message', message => {
+client.on('message', message => {
   
 	var DEFAULTPREFIX = '^'
 	
@@ -474,7 +474,7 @@ var pleyembed = new RichEmbed()
     } finally {
         console.log(`${message.author.username} ran the command: ${cmd}`);
     }
-});*/
+});
 
 
 client.login(process.env.BOT_TOKEN);
