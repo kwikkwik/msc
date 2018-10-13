@@ -1,4 +1,5 @@
 const { Client, Util, RichEmbed } = require('discord.js');
+const Discord = require('discord.js')
 const { prefix } = require('./config.json');
 const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
