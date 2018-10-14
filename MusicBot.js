@@ -99,11 +99,11 @@ const embed = new Discord.RichEmbed()
 .addField(`Total Channels`, `${client.channels.size}`)
 .addField(`Playing In`, `${queue.size} Server`)
 msg.channel.send(embed)
-	} else 	if (command === 'stats') {
+	} else 	if (command === 'music') {
 		
 var option = args.slice(0).join(" ")
 
-if (option.match('music')) {
+if (option.match('stats')) {
 const Discord = require('discord.js')
 const embed = new Discord.RichEmbed()
 .setColor(3553598)
@@ -336,7 +336,7 @@ return msg.channel.send(queueembed)*/
 		const q = serverQueue.songs.slice(1);
 		var queueembed = new RichEmbed().setColor(3553598);
 		if(serverQueue.length < 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription('**No songs in queue**')});
-                if(queue.length > 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)});
+                if(serverQueue.length > 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)});
 		//.setTitle(`Song Queue ${serverQueue.loop ? '[ loop ]' : ''}`)
 		//.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
 		//return msg.channel.send(`
