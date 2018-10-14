@@ -335,8 +335,8 @@ return msg.channel.send(queueembed)*/
 		const nowPlay = serverQueue.songs[0];
 		const q = serverQueue.songs.slice(1);
 		var queueembed = new RichEmbed().setColor(3553598);
-		if(serverQueue.length < 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription('**No songs in queue**')});
-                if(serverQueue.length > 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)});
+		if(serverQueue.songs < 1) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription('**No songs in queue**')});
+                if(serverQueue.songs > 1) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)});
 		//.setTitle(`Song Queue ${serverQueue.loop ? '[ loop ]' : ''}`)
 		//.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
 		//return msg.channel.send(`
