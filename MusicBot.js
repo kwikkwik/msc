@@ -275,7 +275,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
   .setTitle(serverQueue.songs[0].title)
   .setURL(serverQueue.songs[0].url)
   .setThumbnail(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/default.jpg?width=80&height=60`)
-  .setDescription(`▶ ${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`);
+  .setDescription(`▶ **${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊**\n **\`Requested by:\` ${serverQueue.songs[0].author.username}**`);
   
   return msg.channel.send('**`Now Playing: `**', { embed: emb});
 };
@@ -343,9 +343,9 @@ return msg.channel.send(queueembed)*/
 		var queueembed = new RichEmbed()
 		.setColor(3553598)
 		.setTitle(`Song Queue`)
-		.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
+		.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) \`Requested by:\` ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
 		return msg.channel.send(`
-🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed});
+🎶** | Now playing ${serverQueue.songs[0].title}**\n**▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊 | ${serverQueue.loop ? ':repeat: loop' : ''}**`, {embed: queueembed});
 	} catch (err) {
 		return msg.channel.send(err.stack, { code: 'ini' });
 	}
