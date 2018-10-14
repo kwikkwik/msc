@@ -277,7 +277,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
   .setThumbnail(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/default.jpg?width=80&height=60`)
   .setDescription(`▶ ${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`);
   
-  return msg.channel.send('**`Now Playing: `**, { embed: emb});
+  return msg.channel.send('**`Now Playing: `**', { embed: emb});
 };
 
 function progressBar(percent){
