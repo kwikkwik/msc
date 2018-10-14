@@ -99,7 +99,24 @@ const embed = new Discord.RichEmbed()
 .addField(`Total Channels`, `${client.channels.size}`)
 .addField(`Playing In`, `${queue.size} Server`)
 msg.channel.send(embed)
-	} else 	if (command === 'evm') {
+	} else 	if (command === 'stats') {
+		
+var option = args.slice(0).join(" ")
+
+if (option.match('music')) {
+const Discord = require('discord.js')
+const embed = new Discord.RichEmbed()
+.setColor(3553598)
+.setAuthor(client.user.username, client.user.avatarURL)
+.setDescription(`Ping: ${client.ping.toFixed(2)}ms`)
+.addField(`Server Count`, `${client.guilds.size}`)
+.addField(`Total Members`, `${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`)
+.addField(`Total Channels`, `${client.channels.size}`)
+.addField(`Playing In`, `${queue.size} Server`)
+msg.channel.send(embed)
+}
+
+	} else if (command === 'evm') {
     if (msg.author.id !== '335035386923581440') return;
     try {
         let codein = args.slice(1).join(' ');
