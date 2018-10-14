@@ -257,10 +257,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
   .setAuthor(serverQueue.songs[0].author.tag, serverQueue.songs[0].author.avatarURL)
   .setTitle(serverQueue.songs[0].title)
   .setURL(serverQueue.songs[0].url)
-  .setThumbnail(serverQueue.songs[0].thumbnail)
+  .setThumbnail(`https://i.ytimg.com/vi/${serverQueue.songs[0].id}/default.jpg?width=80&height=60`)
   .setDescription(`▶ ${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`);
   
-  return msg.channel.send({ embed: emb});
+  return msg.channel.send('**`Now Playing: `**, { embed: emb});
 };
 
 function progressBar(percent){
@@ -317,12 +317,13 @@ return msg.channel.send(queueembed)*/
 		if(!serverQueue) return msg.channel.send('Not playing anything right now');
 		const nowPlay = serverQueue.songs[0];
 		const q = serverQueue.songs.slice(1);
-		var queueembed = new RichEmbed()
-		.setColor(3553598) 
-                .setTitle(`Song Queue ${serverQueue.loop ? '[ loop ]' : ''}`)
-		.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
-		return msg.channel.send(`
-**Now Playing**: ${nowPlay.title}`, {embed: queueembed});
+		var queueembed = new RichEmbed().setColor(3553598);
+		if(serverQueue.length < 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription('**No songs in queue**')});
+                if(queue.length > 2) return msg.channel.send(`🎶** | ${serverQueue.loop ? '[ loop ]' : ''} Now playing ${serverQueue.songs[0].title}**\n▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊`, {embed: queueembed.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)});
+		//.setTitle(`Song Queue ${serverQueue.loop ? '[ loop ]' : ''}`)
+		//.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) by ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
+		//return msg.channel.send(`
+//**Now Playing**: ${nowPlay.title}`, {embed: queueembed});
 	} catch (err) {
 		return msg.channel.send(err.stack, { code: 'ini' });
 	}
