@@ -154,7 +154,7 @@ msg.channel.send(embed)
 				const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
 				await handleVideo(video2, msg, voiceChannel, true); // eslint-disable-line no-await-in-loop
 			}
-			return msg.channel.send({ embed: { color:3553598, description: `✅ Playlist: **${playlist.title}** has been added to the queue!`}});
+			return msg.channel.send({ embed: { color:3553598, description: `<a:music:501670339567419413> Playlist: **${playlist.title}** has been added to the queue!`}});
 		} else {
 			try {
 				var video = await youtube.getVideo(url);
@@ -212,7 +212,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 				const vid = await youtube.getVideoByID(video.id);
 				await handleVideo(vid, msg, vc, true);
 			}
-			return msg.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue!`);
+			return msg.channel.send(`<a:music:501670339567419413> Playlist: **${playlist.title}** has been added to the queue!`);
 		}
 				if(/https?:\/\//gi.test(args[0])){
 			const video = await youtube.getVideo(args[0]);
@@ -231,7 +231,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { color:3553598, description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing that I could skip for you.'}});
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
-		return undefined;
+		return msg.channel.send({ embed: { color: 3553598, description: `<a:music:501670339567419413> Skipped **\`${serverQueue.songs[0].title}\`**`}});
 	} else if (command === 'stop' || command === 'st') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { color:3553598, description: 'There is nothing playing that I could stop for you.'}});
@@ -345,7 +345,7 @@ return msg.channel.send(queueembed)*/
 		.setTitle(`Song Queue`)
 		.setDescription(`${trimArray(q.map(x => `[${x.title}](${x.url}) \`Requested by:\` ${x.author}`)).map((x, i) => `${i+1}. **${x}**`).join('\n')}`)
 		return msg.channel.send(`
-🎶** | Now playing ${serverQueue.songs[0].title}**\n**▶${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊 | ${serverQueue.loop ? ':repeat: loop' : ''}**`, {embed: queueembed});
+🎶** | Now playing ${serverQueue.songs[0].title}**\n**▶ ${progressBar(persentase)} \`[${curentDurationMinute}:${currentDurationSeconds} - ${endDurationMinute}:${endDurationSeconds}]\`🔊 | ${serverQueue.loop ? ':repeat: loop' : ''}**`, {embed: queueembed});
 	} catch (err) {
 		return msg.channel.send(err.stack, { code: 'ini' });
 	}
@@ -424,7 +424,7 @@ var adedembed = new RichEmbed()
   .addField('Requested by', `${song.meminta}`)
   .setTimestamp();
 		
- return msg.channel.send(adedembed);
+ return msg.channel.send(`<a:music:501670339567419413> **Added \`${song.title}\`** to the queue`);
 	}
 	return undefined;
 }
@@ -449,6 +449,9 @@ function play(guild, song, msg) {
 		})
 		.on('error', error => console.error(error));
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+  const endDurationHours = serverQueue.songs[0].duration.hours < 10 ? `0${serverQueue.songs[0].duration.hours}` : serverQueue.songs[0].duration.hours;
+    const endDurationMinute = serverQueue.songs[0].duration.minutes < 10 ? `0${serverQueue.songs[0].duration.minutes}` : serverQueue.songs[0].duration.minutes;
+  const endDurationSeconds = serverQueue.songs[0].duration.seconds < 10 ? `0${serverQueue.songs[0].duration.seconds}` : serverQueue.songs[0].duration.seconds;
 var pleyembed = new RichEmbed() 
 
   .setColor(3553598)
@@ -463,7 +466,9 @@ var pleyembed = new RichEmbed()
   .setFooter("If you can't hear the music, please reconnect. If you still can't hear maybe the bot is restarting!")
   .setTimestamp();
 
-	serverQueue.textChannel.send(pleyembed);
+	serverQueue.textChannel.send(`<a:music:501670339567419413> Start playing: **${song.title} \`(${endDurationHours}:${endDurationMinute}:${endDurationSeconds})\`\n\n\`Requested By:\` ${song.meminta.username}**`).then(msg => {
+        msg.delete(3600000)
+    });
 
 }
 
