@@ -154,7 +154,7 @@ msg.channel.send(embed)
 				const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
 				await handleVideo(video2, msg, voiceChannel, true); // eslint-disable-line no-await-in-loop
 			}
-			return msg.channel.send({ embed: { color:3553598, description: `<a:music:501670339567419413> Playlist: **${playlist.title}** has been added to the queue!`}});
+			return msg.channel.send({ embed: { color:3553598, description: `<:m_cek:500912712222507008> Playlist: **${playlist.title}** has been added to the queue!`}});
 		} else {
 			try {
 				var video = await youtube.getVideo(url);
@@ -424,7 +424,7 @@ var adedembed = new RichEmbed()
   .addField('Requested by', `${song.meminta}`)
   .setTimestamp();
 		
- return msg.channel.send(`<a:music:501670339567419413> **Added \`${song.title}\`** to the queue`);
+ return msg.channel.send(`<:m_cek:500912712222507008> **Added \`${song.title}\`** to the queue`);
 	}
 	return undefined;
 }
@@ -466,8 +466,8 @@ var pleyembed = new RichEmbed()
   .setFooter("If you can't hear the music, please reconnect. If you still can't hear maybe the bot is restarting!")
   .setTimestamp();
 
-	serverQueue.textChannel.send(`<a:music:501670339567419413> Start playing: **${song.title} \`(${endDurationHours}:${endDurationMinute}:${endDurationSeconds})\`\n\n\`Requested By:\` ${song.meminta.username}**`).then(msg => {
-        msg.delete(3600000)
+	serverQueue.textChannel.send(`<a:music:501670339567419413> Start playing: **${song.title} \`[${endDurationHours}:${endDurationMinute}:${endDurationSeconds}]\`\n\n\`Requested By:\` ${song.meminta.username}**`).then(msg => {
+        msg.delete(600000)
     });
 
 }
