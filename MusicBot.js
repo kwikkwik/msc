@@ -196,10 +196,10 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
             return;
 					}
 					if((/all/gi).test(response.first().content)){
-					for(const vid of videos){
-						const vid2 = await youtube.getVideoByID(vid.id);
-						await handleVideo(vid2, msg, voiceChannel, true);
-					}
+					for (const video of Object.values(videos)) {
+				const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
+				await handleVideo(video2, msg, voiceChannel, true); // eslint-disable-line no-await-in-loop
+			}
 					return msg.channel.send({ embed: { color: 0x06238B, description: `<:m_cek:500912712222507008> Added 10 songs with query **${searchString}**`}});
 				}
 					const videoIndex = parseInt(response.first().content);
@@ -213,7 +213,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			return handleVideo(video, msg, voiceChannel);
 		}
 	} else if (command === 'play' || command === 'p') {
-	if(!args[1]) return msg.channel.send(`**Please provide Song Title**`);
+	if(!args.length) return msg.channel.send(`**Please provide Song Title**`);
 	try{
 		const vc = msg.member.voiceChannel;
 		if(!vc) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
@@ -227,7 +227,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			}
 			return msg.channel.send(`<a:music:501670339567419413> Playlist: **${playlist.title}** has been added to the queue!`);
 		}
-				if(/https?:\/\//gi.test(args[0])){
+		if(/https?:\/\//gi.test(args[0])){
 			const video = await youtube.getVideo(args[0]);
 			return handleVideo(video, msg, vc);
 		}
@@ -245,13 +245,11 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 		if (!serverQueue) return msg.channel.send({ embed: { color:0x06238B, description: 'There is nothing playing that I could skip for you.'}});
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 		return msg.channel.send({ embed: { color: 0x06238B, description: `<a:music:501670339567419413> Skipped**`}});
-		return msg.react('⏭️');
 	} else if (command === 'stop' || command === 'st') {
 		if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
 		if (!serverQueue) return msg.channel.send({ embed: { color:0x06238B, description: 'There is nothing playing that I could stop for you.'}});
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
-		return msg.react('🛑');
 		return msg.channel.send({ embed: { color: 0x06238B, description: 'The music has stopped and I has left the voice channel!'}});
 	} else if (command === 'volume' || command === 'v') {
 
