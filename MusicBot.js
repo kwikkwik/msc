@@ -200,7 +200,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 						const vid2 = await youtube.getVideoByID(vid.id);
 						await handleVideo(vid2, msg, voiceChannel, true);
 					}
-					return msg.channel.send({ embed: { color: 0x06238B, description: `✅ Added 10 songs with query **${searchString}**`}});
+					return msg.channel.send({ embed: { color: 0x06238B, description: `<:m_cek:500912712222507008> Added 10 songs with query **${searchString}**`}});
 				}
 					const videoIndex = parseInt(response.first().content);
 					var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
@@ -213,7 +213,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 			return handleVideo(video, msg, voiceChannel);
 		}
 	} else if (command === 'play' || command === 'p') {
-	if(!args.length) return msg.channel.send(`**Please provide Song Title**`);
+	if(!args[1]) return msg.channel.send(`**Please provide Song Title**`);
 	try{
 		const vc = msg.member.voiceChannel;
 		if(!vc) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
