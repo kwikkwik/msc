@@ -1,4 +1,4 @@
-const { handleVideo, youtube, prefix } = require('../index.js');
+const { handleVideo, youtube, prefix } = require('../MusicBot.js');
 const { RichEmbed } = require('discord.js');
 
 exports.run = async (client, msg, args) => {
