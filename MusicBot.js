@@ -491,10 +491,6 @@ var pleyembed = new RichEmbed()
 	serverQueue.textChannel.send(play).then(msg => {
         msg.delete(600000)
     });
-	
-		    setTimeout(() => {
-        commandcooldown.delete(message.author.id);
-    }, 2000); //2000 ms = 2 detik\
 
 }
 
